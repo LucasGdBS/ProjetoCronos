@@ -65,11 +65,32 @@ void loop()
 
   timer(s);
 
-  lcd_1.print(hora);
+  /*lcd_1.print(hora);
   lcd_1.print(":");
   lcd_1.print(minutos);
   lcd_1.print(":");
-  lcd_1.print(segundos);
+  lcd_1.print(segundos);*/
+
+  if (hora < 10){
+    lcd_1.print(0);
+    lcd_1.print(hora);
+  }else{
+    lcd_1.print(hora);
+  }
+  lcd_1.print(":");
+  if (minutos < 10){
+    lcd_1.print(0);
+    lcd_1.print(minutos);
+  }else{
+    lcd_1.print(minutos);
+  }
+  lcd_1.print(":");
+  if(segundos < 10){
+    lcd_1.print(0);
+    lcd_1.print(segundos);
+  }else{
+    lcd_1.print(segundos);
+  }
 
  
  
