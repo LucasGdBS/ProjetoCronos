@@ -1,4 +1,11 @@
-#include <Adafruit_LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
+
+#define col 16
+#define lin 2
+#define ende 0x3F
+
+//#include <Adafruit_LiquidCrystal.h>
 
 int s = 0;
 int count = 0;
@@ -8,17 +15,21 @@ int button3 = 4;
 int button4 = 5;
 int hora, resto, minutos, segundos;
 
-Adafruit_LiquidCrystal lcd_1(0);
+LiquidCrystal_I2C lcd_1(ende, col, lin);
 
 void setup()
 {
-  lcd_1.begin(16, 2);
+  Serial.begin(96000);
+  lcd_1.init();
+  lcd_1.clear();
+  lcd_1.backlight();
+  
   
 
-  pinMode(button1, INPUT); //button1 add 1 min
-  pinMode(button2, INPUT); //button2 add 10 min
-  pinMode(button3, INPUT); //button3 add play/pause min
-  pinMode(button4, INPUT); //button4 reset
+  pinMode(button1, INPUT_PULLUP); //button1 add 1 min
+  pinMode(button2, INPUT_PULLUP); //button2 add 10 min
+  pinMode(button3, INPUT_PULLUP); //button3 add play/pause min
+  pinMode(button4, INPUT_PULLUP); //button4 reset
 
 }
 void timer(int tempo){
@@ -37,28 +48,31 @@ void loop()
   lcd_1.print("Projeto Cronos");
   lcd_1.setCursor(0, 1);
 
-  if (digitalRead(button1) == HIGH){
+  if (digitalRead(button1) == LOW){
     s += 60;
+    Serial.println("A");
   }
-  if (digitalRead(button2) == HIGH){
+  if (digitalRead(button2) == LOW){
     s += 10*60;
+    Serial.println("B");
   }
-  if (digitalRead(button3) == HIGH){
+  if (digitalRead(button3) == LOW){
     if (count == 0){
       count = 1;
     }else{
       count = 0;
     }
   }
-  if (digitalRead(button4) == HIGH){
+  if (digitalRead(button4) == LOW){
+    lcd_1.clear();
     s = 0;
     count = 0;
-    lcd_1.clear();
+
   }
 
   if (count == 1){
     if (s > 0){
-      delay(100);
+      
       s = s-1;
     }
   }
