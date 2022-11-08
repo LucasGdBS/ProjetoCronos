@@ -14,6 +14,7 @@ int button2 = 3;
 int button3 = 4;
 int button4 = 5;
 int hora, resto, minutos, segundos;
+unsigned long int tempoAnterior1, tempoAnterior2, tempoAnterior3, tempoAnterior4, tempoAnteriorCont;
 
 LiquidCrystal_I2C lcd_1(ende, col, lin);
 
@@ -41,50 +42,8 @@ void timer(int tempo){
 
 }
 
-
-void loop()
-{
-  lcd_1.setCursor(0, 0);
-  lcd_1.print("Projeto Cronos");
-  lcd_1.setCursor(0, 1);
-
-  if (digitalRead(button1) == LOW){
-    s += 60;
-    Serial.println("A");
-  }
-  if (digitalRead(button2) == LOW){
-    s += 10*60;
-    Serial.println("B");
-  }
-  if (digitalRead(button3) == LOW){
-    if (count == 0){
-      count = 1;
-    }else{
-      count = 0;
-    }
-  }
-  if (digitalRead(button4) == LOW){
-    lcd_1.clear();
-    s = 0;
-    count = 0;
-
-  }
-
-  if (count == 1){
-    if (s > 0){
-      
-      s = s-1;
-    }
-  }
-
-  timer(s);
-
-  /*lcd_1.print(hora);
-  lcd_1.print(":");
-  lcd_1.print(minutos);
-  lcd_1.print(":");
-  lcd_1.print(segundos);*/
-
+void tela(){
+  
   if (hora < 10){
     lcd_1.print(0);
     lcd_1.print(hora);
@@ -105,6 +64,62 @@ void loop()
   }else{
     lcd_1.print(segundos);
   }
+  
+}
+
+
+void loop()
+{
+lcd_1.setCursor(0, 0);
+  lcd_1.print("Projeto Cronos");
+  lcd_1.setCursor(0, 1);
+
+  if (millis() - tempoAnterior1 >= 800){
+    tempoAnterior1 = millis();
+    if (digitalRead(button1) == LOW){
+      s += 60;
+    }
+  }
+  if (millis() - tempoAnterior2 >= 800){
+    tempoAnterior2 = millis();
+    if (digitalRead(button2) == LOW){
+      s += 10*60;
+    }
+  }
+  if (millis() - tempoAnterior3 >= 800){
+    tempoAnterior3 = millis();
+    if (digitalRead(button3) == LOW){
+      if (count == 0){
+        count = 1;
+      }else{
+        count = 0;
+      }
+    }
+  }
+  if (millis() - tempoAnterior4 >= 800){
+    tempoAnterior4 = millis();
+    if (digitalRead(button4) == LOW){
+      s = 0;
+      count = 0;
+      lcd_1.clear();
+    }
+  }
+
+  if (count == 1){
+    if (s > 0){
+      if (millis() - tempoAnteriorCont >= 1000){
+        tempoAnteriorCont = millis();
+        s--;
+        if (s == 0){
+          count = 0;
+        }
+      }
+    }
+  }
+
+
+  timer(s);
+  tela();
 
  
  
