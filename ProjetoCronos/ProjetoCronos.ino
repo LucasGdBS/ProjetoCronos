@@ -86,7 +86,7 @@ lcd_1.setCursor(0, 0);
       s += 10*60;
     }
   }
-  if (millis() - tempoAnterior3 >= 80){
+  if (millis() - tempoAnterior3 >= 150){
     tempoAnterior3 = millis();
     if (digitalRead(button3) == LOW){
       if (count == 0){
