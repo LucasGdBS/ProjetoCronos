@@ -74,19 +74,19 @@ lcd_1.setCursor(0, 0);
   lcd_1.print("Projeto Cronos");
   lcd_1.setCursor(0, 1);
 
-  if (millis() - tempoAnterior1 >= 800){
+  if (millis() - tempoAnterior1 >= 200){
     tempoAnterior1 = millis();
     if (digitalRead(button1) == LOW){
       s += 60;
     }
   }
-  if (millis() - tempoAnterior2 >= 800){
+  if (millis() - tempoAnterior2 >= 200){
     tempoAnterior2 = millis();
     if (digitalRead(button2) == LOW){
       s += 10*60;
     }
   }
-  if (millis() - tempoAnterior3 >= 800){
+  if (millis() - tempoAnterior3 >= 80){
     tempoAnterior3 = millis();
     if (digitalRead(button3) == LOW){
       if (count == 0){
@@ -96,7 +96,7 @@ lcd_1.setCursor(0, 0);
       }
     }
   }
-  if (millis() - tempoAnterior4 >= 800){
+  if (millis() - tempoAnterior4 >= 200){
     tempoAnterior4 = millis();
     if (digitalRead(button4) == LOW){
       s = 0;
@@ -116,7 +116,6 @@ lcd_1.setCursor(0, 0);
       }
     }
   }
-
 
   timer(s);
   tela();
